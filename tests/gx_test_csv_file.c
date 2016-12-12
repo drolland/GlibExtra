@@ -27,13 +27,17 @@ void test_correct_output(){
     
     for(int i = 0; i < N2; i++){
         indices2[i] = i*2;
-        values2[i] = (i+1)*2 + i*i*i - 2 * i * i + 50000;
+        values2[i] = (i+1)*2 + i*i*i - 2 * i * i + 3000;
     }
     
     GCsvFile* file = gx_csv_file_new();
+    
     gx_csv_file_add_column(file,indices1,values1,N1);
     gx_csv_file_add_column(file,indices2,values2,N2);
+    
     gx_csv_file_write_to_disk(file,"test_csv.csv","test_csv.plot",NULL);
+    
+    gx_csv_file_free(file);
 }
 
 int main(int argc,char** argv){

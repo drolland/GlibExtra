@@ -18,10 +18,9 @@
 
 G_BEGIN_DECLS
 
-    extern gint call;
+    void gx_qsort_int(int* t, int i, int j);
 
-    void gx_sort_divide_int(int* t, int i, int j);
-
+    void gx_qsort(gpointer a,size_t elem_size,int i,int j,GCompareFunc cmp_func);
 
 G_END_DECLS
 

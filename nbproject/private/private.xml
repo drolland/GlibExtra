@@ -2,22 +2,20 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <data xmlns="http://www.netbeans.org/ns/make-project-private/1">
         <activeConfTypeElem>3</activeConfTypeElem>
-        <activeConfIndexElem>0</activeConfIndexElem>
+        <activeConfIndexElem>1</activeConfIndexElem>
     </data>
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/drolland/Dropbox/Project/Netbeans/GLibExtra/nbproject/private/Makefile-variables.mk</file>
-            <file>file:/home/drolland/Dropbox/Project/Netbeans/GLibExtra/Makefile</file>
-            <file>file:/home/drolland/Dropbox/Project/Netbeans/GLibExtra/gx_sort_divide.h</file>
-            <file>file:/home/drolland/Dropbox/Project/Netbeans/GLibExtra/tests/Makefile</file>
-            <file>file:/home/drolland/Dropbox/Project/Netbeans/GLibExtra/gx_macros.h</file>
-            <file>file:/home/drolland/Dropbox/Project/Netbeans/GLibExtra/gx_sort_divide.c</file>
-            <file>file:/home/drolland/Dropbox/Project/Netbeans/GLibExtra/gx_test_common.c</file>
-            <file>file:/home/drolland/Dropbox/Project/Netbeans/GLibExtra/tests/gx_test_sort_divide_conquer.c</file>
-            <file>file:/home/drolland/Dropbox/Project/Netbeans/GLibExtra/gx_test_common.h</file>
-            <file>file:/home/drolland/Dropbox/Project/Netbeans/GLibExtra/nbproject/Makefile-variables.mk</file>
-            <file>file:/home/drolland/Dropbox/Project/Netbeans/GLibExtra/nbproject/Makefile-impl.mk</file>
+            <file>file:/home/drolland/NetBeansProject/GLibExtra/gx_qsort.c</file>
+            <file>file:/home/drolland/NetBeansProject/GLibExtra/Makefile</file>
+            <file>file:/home/drolland/NetBeansProject/GLibExtra/gx_csv_file.c</file>
+            <file>file:/home/drolland/NetBeansProject/GLibExtra/gx_qsort.h</file>
+            <file>file:/home/drolland/NetBeansProject/GLibExtra/tests/gx_test_qsort.c</file>
+            <file>file:/home/drolland/NetBeansProject/GLibExtra/gx_csv_file.h</file>
+            <file>file:/home/drolland/NetBeansProject/GLibExtra/tests/gx_test_csv_file.c</file>
+            <file>file:/home/drolland/NetBeansProject/GLibExtra/tests/Makefile</file>
+            <file>file:/home/drolland/NetBeansProject/GLibExtra/gx_test_csv_file.c</file>
         </group>
     </open-files>
 </project-private>

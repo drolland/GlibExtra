@@ -23,7 +23,7 @@ AS=as
 # Macros
 CND_PLATFORM=GNU-Linux
 CND_DLIB_EXT=so
-CND_CONF=Debug
+CND_CONF=Debug_App
 CND_DISTDIR=dist
 CND_BUILDDIR=build
 
@@ -37,7 +37,6 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 OBJECTFILES= \
 	${OBJECTDIR}/gx_csv_file.o \
 	${OBJECTDIR}/gx_qsort.o \
-	${OBJECTDIR}/tests/gx_test_csv_file.o \
 	${OBJECTDIR}/tests/gx_test_qsort.o
 
 
@@ -59,13 +58,11 @@ LDLIBSOPTIONS=
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libglibextra.a
+	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/glibextra
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libglibextra.a: ${OBJECTFILES}
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/glibextra: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
-	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libglibextra.a
-	${AR} -rv ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libglibextra.a ${OBJECTFILES} 
-	$(RANLIB) ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libglibextra.a
+	${LINK.c} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/glibextra ${OBJECTFILES} ${LDLIBSOPTIONS} `pkg-config --libs glib-2.0`
 
 ${OBJECTDIR}/gx_csv_file.o: gx_csv_file.c
 	${MKDIR} -p ${OBJECTDIR}
@@ -76,11 +73,6 @@ ${OBJECTDIR}/gx_qsort.o: gx_qsort.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -g -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/gx_qsort.o gx_qsort.c
-
-${OBJECTDIR}/tests/gx_test_csv_file.o: tests/gx_test_csv_file.c
-	${MKDIR} -p ${OBJECTDIR}/tests
-	${RM} "$@.d"
-	$(COMPILE.c) -g -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/tests/gx_test_csv_file.o tests/gx_test_csv_file.c
 
 ${OBJECTDIR}/tests/gx_test_qsort.o: tests/gx_test_qsort.c
 	${MKDIR} -p ${OBJECTDIR}/tests

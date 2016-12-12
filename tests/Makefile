@@ -10,7 +10,7 @@
 
 #### Compiler and tool definitions shared by all build targets #####
 CC = gcc
-CFLAGS=`pkg-config --cflags --libs glib-2.0` 
+CFLAGS=`pkg-config --cflags --libs glib-2.0` -O2 -flto 
 
 SRC= $(wildcard *.c)
 TEST= $(SRC:.c=.test)
@@ -22,7 +22,7 @@ all:	$(TEST)
 	@$(CC) $^ -o $@ $(CFLAGS)
 	
 clean:
-	@rm -rf test*.test
+	@rm -rf *.test
 	
 
 .PHONY: clean 

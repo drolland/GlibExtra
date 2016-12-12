@@ -14,14 +14,14 @@ GREP=grep
 NM=nm
 CCADMIN=CCadmin
 RANLIB=ranlib
-CC=clang
-CCC=clang++
-CXX=clang++
+CC=gcc
+CCC=g++
+CXX=g++
 FC=gfortran
 AS=as
 
 # Macros
-CND_PLATFORM=CLang-Linux
+CND_PLATFORM=GNU-Linux
 CND_DLIB_EXT=so
 CND_CONF=Release
 CND_DISTDIR=dist
@@ -36,12 +36,13 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/gx_csv_file.o \
-	${OBJECTDIR}/gx_sort_divide.o \
-	${OBJECTDIR}/tests/gx_test_csv_file.o
+	${OBJECTDIR}/gx_qsort.o \
+	${OBJECTDIR}/tests/gx_test_csv_file.o \
+	${OBJECTDIR}/tests/gx_test_qsort.o
 
 
 # C Compiler Flags
-CFLAGS=
+CFLAGS=`pkg-config --cflags glib-2.0` 
 
 # CC Compiler Flags
 CCFLAGS=
@@ -71,15 +72,20 @@ ${OBJECTDIR}/gx_csv_file.o: gx_csv_file.c
 	${RM} "$@.d"
 	$(COMPILE.c) -O2 -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/gx_csv_file.o gx_csv_file.c
 
-${OBJECTDIR}/gx_sort_divide.o: gx_sort_divide.c
+${OBJECTDIR}/gx_qsort.o: gx_qsort.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.c) -O2 -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/gx_sort_divide.o gx_sort_divide.c
+	$(COMPILE.c) -O2 -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/gx_qsort.o gx_qsort.c
 
 ${OBJECTDIR}/tests/gx_test_csv_file.o: tests/gx_test_csv_file.c
 	${MKDIR} -p ${OBJECTDIR}/tests
 	${RM} "$@.d"
 	$(COMPILE.c) -O2 -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/tests/gx_test_csv_file.o tests/gx_test_csv_file.c
+
+${OBJECTDIR}/tests/gx_test_qsort.o: tests/gx_test_qsort.c
+	${MKDIR} -p ${OBJECTDIR}/tests
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/tests/gx_test_qsort.o tests/gx_test_qsort.c
 
 # Subprojects
 .build-subprojects:
