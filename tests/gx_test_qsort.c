@@ -4,6 +4,7 @@
 #include "../gx_qsort.h"
 #include "../gx_macros.h"
 #include "../gx_csv_file.h"
+#include "../gx_merge_sort.h"
 
 
 #define N 1000
@@ -16,7 +17,7 @@ gint* gx_generate_random_int_array(gsize size){
     gint* array = g_malloc(sizeof(gint)*size);
     
     for(gint i = 0;i < size;i++){
-        array[i] = g_rand_int_range(rand,1,20000);
+        array[i] = g_rand_int_range(rand,1,size*2);
     }
     
     return array;
@@ -77,6 +78,7 @@ void test_random_input_generic(){
 
 #define MAX_N 10000
 #define STEP_N 200
+#define ITER_N 50
 
 void plot_complexity(){
     
@@ -87,21 +89,27 @@ void plot_complexity(){
     gdouble* values = g_malloc(1000*sizeof(double));
     gdouble* indices2 = g_malloc(1000*sizeof(double));
     gdouble* values2 = g_malloc(1000*sizeof(double));
+    gdouble* indices3 = g_malloc(1000*sizeof(double));
+    gdouble* values3 = g_malloc(1000*sizeof(double));
     gint i = 0;
     
     GTimer* timer = g_timer_new();
     GTimer* timer2 = g_timer_new();
+    GTimer* timer3 = g_timer_new();
     g_timer_start(timer);
     g_timer_stop(timer);
     g_timer_start(timer2);
     g_timer_stop(timer2);
+    g_timer_start(timer3);
+    g_timer_stop(timer3);
     
      for( int n = STEP_N; n < MAX_N;  n += STEP_N){
         
          g_timer_reset(timer);
          g_timer_reset(timer2);  
+         g_timer_reset(timer3); 
          
-         for (int k = 0; k < ITER; k++){
+         for (int k = 0; k < ITER_N; k++){
              
             gint* t = gx_generate_random_int_array(n);
         
@@ -122,12 +130,24 @@ void plot_complexity(){
             g_timer_stop(timer2);
 
             g_free(t);
+            
+            t = gx_generate_random_int_array(n);
+        
+            g_timer_continue(timer3);
+        
+            gx_merge_sort(t,n);
+            
+            g_timer_stop(timer3);
+
+            g_free(t);
          }
         
          indices[i] = (gdouble)n;
          values[i] = g_timer_elapsed(timer,NULL);
          indices2[i] = (gdouble)n;
          values2[i] = g_timer_elapsed(timer2,NULL);
+         indices3[i] = (gdouble)n;
+         values3[i] = g_timer_elapsed(timer3,NULL);
          i++;
         
     }
@@ -138,6 +158,7 @@ void plot_complexity(){
     
     gx_csv_file_add_column(file,indices,values,MAX_N/STEP_N - 1);
     gx_csv_file_add_column(file,indices2,values2,MAX_N/STEP_N - 1);
+    gx_csv_file_add_column(file,indices3,values3,MAX_N/STEP_N - 1);
     
     GError* error = NULL;
     

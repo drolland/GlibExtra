@@ -36,7 +36,9 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/gx_csv_file.o \
+	${OBJECTDIR}/gx_merge_sort.o \
 	${OBJECTDIR}/gx_qsort.o \
+	${OBJECTDIR}/gx_test_msort.o \
 	${OBJECTDIR}/tests/gx_test_csv_file.o \
 	${OBJECTDIR}/tests/gx_test_qsort.o
 
@@ -72,10 +74,20 @@ ${OBJECTDIR}/gx_csv_file.o: gx_csv_file.c
 	${RM} "$@.d"
 	$(COMPILE.c) -g -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/gx_csv_file.o gx_csv_file.c
 
+${OBJECTDIR}/gx_merge_sort.o: gx_merge_sort.c
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -g -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/gx_merge_sort.o gx_merge_sort.c
+
 ${OBJECTDIR}/gx_qsort.o: gx_qsort.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -g -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/gx_qsort.o gx_qsort.c
+
+${OBJECTDIR}/gx_test_msort.o: gx_test_msort.c
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -g -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/gx_test_msort.o gx_test_msort.c
 
 ${OBJECTDIR}/tests/gx_test_csv_file.o: tests/gx_test_csv_file.c
 	${MKDIR} -p ${OBJECTDIR}/tests

@@ -19,15 +19,14 @@
 
 void gx_qsort_int(gint *t,gint l,gint r){
     
+    static GRand* rand = NULL;
         
     if ( l == r) return;
        
     gint i = l;
     gint j = r;
-     
-    gint median = (r-l) / 2 + l;
-    
-    if ( median == 0 ){
+         
+    if ( l+1 == r ){
         if ( t[i] > t[i+1] ){
             gint temp = t[i+1];
             t[i+1] = t[i];
@@ -38,10 +37,10 @@ void gx_qsort_int(gint *t,gint l,gint r){
     
     //P_DEBUG(t,l,r);
     
-    GRand* rand = g_rand_new();
-    gint pivot_index = g_rand_int_range(rand,l,r);
-    g_rand_free(rand);
-            
+    if ( rand == NULL)
+        rand = g_rand_new();
+    
+    gint pivot_index = g_rand_int_range(rand,l,r);        
     gint pivot = t[pivot_index];
     t[pivot_index] = t[l];
     t[l] = pivot;
@@ -49,8 +48,6 @@ void gx_qsort_int(gint *t,gint l,gint r){
     
     i += 1;
     
-    
-    g_assert(l <= r);
     
     /* Invariant : T[l..i[ <= pivot && t]j..r] > pivot */
     
@@ -87,10 +84,7 @@ void gx_qsort_int(gint *t,gint l,gint r){
     
     
     /* Invariant : ( T[l..i[ <= pivot  && t]j..r] > pivot && i == j*/
-    
-    g_assert(i == j);
-    
-    
+      
     if ( t[i] > pivot){
         i--;
     } 
