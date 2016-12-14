@@ -82,7 +82,7 @@
       </toolsSet>
       <compileType>
         <cTool>
-          <developmentMode>5</developmentMode>
+          <developmentMode>6</developmentMode>
           <standard>10</standard>
           <commandLine>`pkg-config --cflags glib-2.0`</commandLine>
         </cTool>

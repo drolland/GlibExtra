@@ -70,22 +70,22 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libglibextra.a: ${OBJECTFILES}
 ${OBJECTDIR}/gx_csv_file.o: gx_csv_file.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.c) -O2 -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/gx_csv_file.o gx_csv_file.c
+	$(COMPILE.c) -O3 -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/gx_csv_file.o gx_csv_file.c
 
 ${OBJECTDIR}/gx_qsort.o: gx_qsort.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.c) -O2 -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/gx_qsort.o gx_qsort.c
+	$(COMPILE.c) -O3 -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/gx_qsort.o gx_qsort.c
 
 ${OBJECTDIR}/tests/gx_test_csv_file.o: tests/gx_test_csv_file.c
 	${MKDIR} -p ${OBJECTDIR}/tests
 	${RM} "$@.d"
-	$(COMPILE.c) -O2 -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/tests/gx_test_csv_file.o tests/gx_test_csv_file.c
+	$(COMPILE.c) -O3 -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/tests/gx_test_csv_file.o tests/gx_test_csv_file.c
 
 ${OBJECTDIR}/tests/gx_test_qsort.o: tests/gx_test_qsort.c
 	${MKDIR} -p ${OBJECTDIR}/tests
 	${RM} "$@.d"
-	$(COMPILE.c) -O2 -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/tests/gx_test_qsort.o tests/gx_test_qsort.c
+	$(COMPILE.c) -O3 -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/tests/gx_test_qsort.o tests/gx_test_qsort.c
 
 # Subprojects
 .build-subprojects:

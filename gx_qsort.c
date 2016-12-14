@@ -114,16 +114,18 @@ void gx_qsort_int(gint *t,gint l,gint r){
         
 }
 
-#define elem_index(a,e_size,i) (gchar*)(a + i * e_size)
+#define elem_index(a,e_size,i) (gchar*)(((gchar*)a) + i * e_size)
 #define elem_swap(a,e_size,x,y) do {                                            \
-            memcpy(_temp_swap,elem_index(t,e_size,y),e_size);                \
-            memcpy(elem_index(t,e_size,y),elem_index(t,e_size,x),e_size); \
-            memcpy(elem_index(t,e_size,x),_temp_swap,e_size);                      \
+            memcpy(_temp_swap,elem_index(t,e_size,y),e_size);                   \
+            memcpy(elem_index(t,e_size,y),elem_index(t,e_size,x),e_size);       \
+            memcpy(elem_index(t,e_size,x),_temp_swap,e_size);                   \
             } while(0)                                                          \
             
 
+
 void gx_qsort(gpointer a,size_t elem_size,gint l,gint r,GCompareFunc cmp_func){
     
+    static GRand* rand = NULL;
         
     if ( l == r) return;
        
@@ -133,9 +135,7 @@ void gx_qsort(gpointer a,size_t elem_size,gint l,gint r,GCompareFunc cmp_func){
     gint i = l;
     gint j = r;
      
-    gint median = (r-l) / 2 + l;
-    
-    if ( median == 0 ){
+    if ( l+1 == r ){
         if ( cmp_func(elem_index(t,elem_size,i),elem_index(t,elem_size,i+1)) > 0 ){
             elem_swap(t,elem_size,i,i+1);
         }
@@ -144,15 +144,14 @@ void gx_qsort(gpointer a,size_t elem_size,gint l,gint r,GCompareFunc cmp_func){
     
     P_DEBUG(t,l,r);
     
-    GRand* rand = g_rand_new();
-    gint pivot_index = g_rand_int_range(rand,l,r);
-    g_rand_free(rand);
-            
-    gchar* pivot = elem_index(t,elem_size,l);    
+    if ( rand == NULL) 
+        rand = g_rand_new();
+    
+    gint pivot_index = g_rand_int_range(rand,l,r);          
     elem_swap(t,elem_size,pivot_index,l);
+    gchar* pivot = elem_index(t,elem_size,l); 
     
     i += 1;
-    
     
     g_assert(l <= r);
     
