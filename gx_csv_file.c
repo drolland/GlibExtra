@@ -5,6 +5,7 @@
 
 typedef struct _gx_csv_file {
     GPtrArray* columns;
+    guint ref;
 } GCsvFile;
 
 void ptr_array_free_elem(gpointer data) {
@@ -15,18 +16,27 @@ void ptr_array_free_elem(gpointer data) {
 GCsvFile* gx_csv_file_new() {
     GCsvFile* newf = g_slice_new(GCsvFile);
     newf->columns = g_ptr_array_new_with_free_func(ptr_array_free_elem);
+    newf->ref = 1;
     return newf;
 }
 
-void gx_csv_file_free(GCsvFile* csv_file) {
-    g_ptr_array_unref(csv_file->columns);
-    g_slice_free(GCsvFile, csv_file);
+void gx_csv_file_ref(GCsvFile* csv_file) {
+    g_assert(csv_file != NULL);
+    csv_file->ref++;
+}
+
+void gx_csv_file_unref(GCsvFile* csv_file) {
+    g_assert(csv_file != NULL);
+    csv_file->ref--;
+    if ( csv_file->ref <= 0){
+        g_ptr_array_unref(csv_file->columns);
+        g_slice_free(GCsvFile, csv_file);
+    }
 }
 
 void gx_csv_file_add_column(GCsvFile* csv_file, double* indices, double* values, gsize size) {
 
     g_assert(csv_file != NULL && indices != NULL && values != NULL && size > 0);
-
 
     GArray* indices_a = g_array_sized_new(TRUE, FALSE, sizeof (gdouble), size);
     GArray* values_a = g_array_sized_new(TRUE, FALSE, sizeof (gdouble), size);
@@ -48,8 +58,10 @@ void gx_csv_file_write_to_disk(GCsvFile* csv_file, gchar* path, gchar* gnuplot_s
 
     GError* file_error = NULL;
     GIOChannel* file_gnuplot = NULL;
-
-    GIOChannel* file_data = g_io_channel_new_file(path, "w", &file_error);
+    GIOChannel* file_data = NULL;
+    
+    file_data = g_io_channel_new_file(path, "w", &file_error);
+    
     if (file_error)
         goto error;
 
@@ -121,7 +133,6 @@ error:
         g_io_channel_unref(file_data);
     if (file_gnuplot)
         g_io_channel_unref(file_gnuplot);
-
     if (file_error)
         g_propagate_error(error, file_error);
 

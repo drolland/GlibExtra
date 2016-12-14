@@ -75,12 +75,13 @@ void test_random_input_generic(){
     }
 }
 
-#define MAX_N 3000
-#define STEP_N 50
+#define MAX_N 10000
+#define STEP_N 200
 
 void plot_complexity(){
     
-
+    if ( g_test_perf() != TRUE)
+        return;
     
     gdouble* indices = g_malloc(1000*sizeof(double));
     gdouble* values = g_malloc(1000*sizeof(double));
@@ -150,7 +151,7 @@ void plot_complexity(){
     
     g_free(values);
     
-    gx_csv_file_free(file);
+    gx_csv_file_unref(file);
         
 }
 
