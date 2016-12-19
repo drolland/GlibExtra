@@ -37,8 +37,6 @@ gint gx_is_int_array_sorted(gint t[], gsize size){
     return 1;    
 }
 
-
-
 void test_random_input_int(){
         
      for( int k = 0; k < ITER; k++){
@@ -82,8 +80,7 @@ void test_random_input_generic(){
 
 void plot_complexity(){
     
-    if ( g_test_perf() != TRUE)
-        return;
+    
     
     gdouble* indices = g_malloc(1000*sizeof(double));
     gdouble* values = g_malloc(1000*sizeof(double));
@@ -156,13 +153,16 @@ void plot_complexity(){
     
     GCsvFile* file = gx_csv_file_new();
     
-    gx_csv_file_add_column(file,indices,values,MAX_N/STEP_N - 1);
-    gx_csv_file_add_column(file,indices2,values2,MAX_N/STEP_N - 1);
-    gx_csv_file_add_column(file,indices3,values3,MAX_N/STEP_N - 1);
+    gx_csv_file_add_column(file,indices,MAX_N/STEP_N - 1,"_");
+    gx_csv_file_add_column(file,values,MAX_N/STEP_N - 1,"gx_qsort_int");
+    gx_csv_file_add_column(file,indices2,MAX_N/STEP_N - 1,"_");
+    gx_csv_file_add_column(file,values2,MAX_N/STEP_N - 1,"g_qsort_with_data");
+    gx_csv_file_add_column(file,indices3,MAX_N/STEP_N - 1,"_");
+    gx_csv_file_add_column(file,values3,MAX_N/STEP_N - 1,"gx_merge_sort");
     
     GError* error = NULL;
     
-    gx_csv_file_write_to_disk(file,"bench_sort.csv","bench_sort.plot",&error);
+    gx_csv_file_write_to_disk(file,"tests/bench_sort.csv","tests/bench_sort.plot",&error);
         
     g_assert_no_error(error);
     

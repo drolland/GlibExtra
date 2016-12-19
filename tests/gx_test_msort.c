@@ -68,7 +68,6 @@ int main(int argc,char** argv){
     
     g_print("qsort sort time %f \n", seconds);
     
- 
     g_assert(gx_is_int_array_sorted(array,N));
     
     g_free(array);

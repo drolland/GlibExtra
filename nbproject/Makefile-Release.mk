@@ -37,11 +37,23 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 OBJECTFILES= \
 	${OBJECTDIR}/gx_csv_file.o \
 	${OBJECTDIR}/gx_merge_sort.o \
-	${OBJECTDIR}/gx_qsort.o \
-	${OBJECTDIR}/gx_test_msort.o \
-	${OBJECTDIR}/tests/gx_test_csv_file.o \
-	${OBJECTDIR}/tests/gx_test_qsort.o
+	${OBJECTDIR}/gx_printf.o \
+	${OBJECTDIR}/gx_qsort.o
 
+# Test Directory
+TESTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}/tests
+
+# Test Files
+TESTFILES= \
+	${TESTDIR}/TestFiles/f1 \
+	${TESTDIR}/TestFiles/f2 \
+	${TESTDIR}/TestFiles/f3
+
+# Test Object Files
+TESTOBJECTFILES= \
+	${TESTDIR}/tests/gx_test_csv_file.o \
+	${TESTDIR}/tests/gx_test_msort.o \
+	${TESTDIR}/tests/gx_test_qsort.o
 
 # C Compiler Flags
 CFLAGS=`pkg-config --cflags glib-2.0` 
@@ -79,28 +91,116 @@ ${OBJECTDIR}/gx_merge_sort.o: gx_merge_sort.c
 	${RM} "$@.d"
 	$(COMPILE.c) -O3 -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/gx_merge_sort.o gx_merge_sort.c
 
+${OBJECTDIR}/gx_printf.o: gx_printf.c
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -O3 -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/gx_printf.o gx_printf.c
+
 ${OBJECTDIR}/gx_qsort.o: gx_qsort.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -O3 -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/gx_qsort.o gx_qsort.c
 
-${OBJECTDIR}/gx_test_msort.o: gx_test_msort.c
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.c) -O3 -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/gx_test_msort.o gx_test_msort.c
-
-${OBJECTDIR}/tests/gx_test_csv_file.o: tests/gx_test_csv_file.c
-	${MKDIR} -p ${OBJECTDIR}/tests
-	${RM} "$@.d"
-	$(COMPILE.c) -O3 -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/tests/gx_test_csv_file.o tests/gx_test_csv_file.c
-
-${OBJECTDIR}/tests/gx_test_qsort.o: tests/gx_test_qsort.c
-	${MKDIR} -p ${OBJECTDIR}/tests
-	${RM} "$@.d"
-	$(COMPILE.c) -O3 -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/tests/gx_test_qsort.o tests/gx_test_qsort.c
-
 # Subprojects
 .build-subprojects:
+
+# Build Test Targets
+.build-tests-conf: .build-tests-subprojects .build-conf ${TESTFILES}
+.build-tests-subprojects:
+
+${TESTDIR}/TestFiles/f1: ${TESTDIR}/tests/gx_test_csv_file.o ${OBJECTFILES:%.o=%_nomain.o}
+	${MKDIR} -p ${TESTDIR}/TestFiles
+	${LINK.c} -o ${TESTDIR}/TestFiles/f1 $^ ${LDLIBSOPTIONS}   
+
+${TESTDIR}/TestFiles/f2: ${TESTDIR}/tests/gx_test_msort.o ${OBJECTFILES:%.o=%_nomain.o}
+	${MKDIR} -p ${TESTDIR}/TestFiles
+	${LINK.c} -o ${TESTDIR}/TestFiles/f2 $^ ${LDLIBSOPTIONS}   
+
+${TESTDIR}/TestFiles/f3: ${TESTDIR}/tests/gx_test_qsort.o ${OBJECTFILES:%.o=%_nomain.o}
+	${MKDIR} -p ${TESTDIR}/TestFiles
+	${LINK.c} -o ${TESTDIR}/TestFiles/f3 $^ ${LDLIBSOPTIONS}   
+
+
+${TESTDIR}/tests/gx_test_csv_file.o: tests/gx_test_csv_file.c 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} "$@.d"
+	$(COMPILE.c) -O3 -I. -std=c11 -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/gx_test_csv_file.o tests/gx_test_csv_file.c
+
+
+${TESTDIR}/tests/gx_test_msort.o: tests/gx_test_msort.c 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} "$@.d"
+	$(COMPILE.c) -O3 -I. -std=c11 -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/gx_test_msort.o tests/gx_test_msort.c
+
+
+${TESTDIR}/tests/gx_test_qsort.o: tests/gx_test_qsort.c 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} "$@.d"
+	$(COMPILE.c) -O3 -I. -std=c11 -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/gx_test_qsort.o tests/gx_test_qsort.c
+
+
+${OBJECTDIR}/gx_csv_file_nomain.o: ${OBJECTDIR}/gx_csv_file.o gx_csv_file.c 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/gx_csv_file.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.c) -O3 -std=c11 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/gx_csv_file_nomain.o gx_csv_file.c;\
+	else  \
+	    ${CP} ${OBJECTDIR}/gx_csv_file.o ${OBJECTDIR}/gx_csv_file_nomain.o;\
+	fi
+
+${OBJECTDIR}/gx_merge_sort_nomain.o: ${OBJECTDIR}/gx_merge_sort.o gx_merge_sort.c 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/gx_merge_sort.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.c) -O3 -std=c11 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/gx_merge_sort_nomain.o gx_merge_sort.c;\
+	else  \
+	    ${CP} ${OBJECTDIR}/gx_merge_sort.o ${OBJECTDIR}/gx_merge_sort_nomain.o;\
+	fi
+
+${OBJECTDIR}/gx_printf_nomain.o: ${OBJECTDIR}/gx_printf.o gx_printf.c 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/gx_printf.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.c) -O3 -std=c11 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/gx_printf_nomain.o gx_printf.c;\
+	else  \
+	    ${CP} ${OBJECTDIR}/gx_printf.o ${OBJECTDIR}/gx_printf_nomain.o;\
+	fi
+
+${OBJECTDIR}/gx_qsort_nomain.o: ${OBJECTDIR}/gx_qsort.o gx_qsort.c 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/gx_qsort.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.c) -O3 -std=c11 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/gx_qsort_nomain.o gx_qsort.c;\
+	else  \
+	    ${CP} ${OBJECTDIR}/gx_qsort.o ${OBJECTDIR}/gx_qsort_nomain.o;\
+	fi
+
+# Run Test Targets
+.test-conf:
+	@if [ "${TEST}" = "" ]; \
+	then  \
+	    ${TESTDIR}/TestFiles/f1 || true; \
+	    ${TESTDIR}/TestFiles/f2 || true; \
+	    ${TESTDIR}/TestFiles/f3 || true; \
+	else  \
+	    ./${TEST} || true; \
+	fi
 
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}

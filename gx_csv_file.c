@@ -1,6 +1,7 @@
 
 #include <string.h>
 
+
 #include "gx_csv_file.h"
 
 typedef struct _gx_csv_file {
@@ -8,9 +9,24 @@ typedef struct _gx_csv_file {
     guint ref;
 } GCsvFile;
 
+typedef struct _column {
+    GArray* array;
+    gchar* name;
+} _Column ;
+
+
+
 void ptr_array_free_elem(gpointer data) {
-    GArray* array = data;
-    g_array_unref(array);
+    _Column* column = data;
+    g_array_unref(column->array);
+    if ( column->name )
+     g_free(column->name);
+    g_free(column);
+}
+
+void ptr_array_free_elem_string(gpointer data) {
+    char* str = data;
+    g_free(str);
 }
 
 GCsvFile* gx_csv_file_new() {
@@ -34,22 +50,23 @@ void gx_csv_file_unref(GCsvFile* csv_file) {
     }
 }
 
-void gx_csv_file_add_column(GCsvFile* csv_file, double* indices, double* values, gsize size) {
+void gx_csv_file_add_column(GCsvFile* csv_file,gdouble* values,gsize size,gchar* name) {
 
-    g_assert(csv_file != NULL && indices != NULL && values != NULL && size > 0);
+    g_assert(csv_file != NULL &&  values != NULL && size > 0);
 
-    GArray* indices_a = g_array_sized_new(TRUE, FALSE, sizeof (gdouble), size);
+    
     GArray* values_a = g_array_sized_new(TRUE, FALSE, sizeof (gdouble), size);
 
     for (int i = 0; i < size; i++) {
-        g_array_append_val(indices_a, indices[i]);
         g_array_append_val(values_a, values[i]);
     }
 
-    g_ptr_array_add(csv_file->columns, indices_a);
-    g_ptr_array_add(csv_file->columns, values_a);
-
-
+    _Column* column = g_malloc(sizeof(_Column*));
+    column->array = values_a;
+    column->name = g_strdup(name);
+    
+    g_ptr_array_add(csv_file->columns, column);
+    
 }
 
 void gx_csv_file_write_to_disk(GCsvFile* csv_file, gchar* path, gchar* gnuplot_script_path, GError** error) {
@@ -74,28 +91,74 @@ void gx_csv_file_write_to_disk(GCsvFile* csv_file, gchar* path, gchar* gnuplot_s
 
 
     for (int i = 0; i < nb_columns; i++) {
-        GArray* a = g_ptr_array_index(csv_file->columns, i);
+        _Column* c = g_ptr_array_index(csv_file->columns,i);
+        GArray* a = c->array;
         if (a->len > max_length)
             max_length = a->len;
     }
 
+    /* Write csv file header*/
+    
+    
+    
+    
+    /* Write csv file column title headers*/
+    for(int i = 0; i < nb_columns ; i++){
+        
+        _Column* c = g_ptr_array_index(csv_file->columns,i);
+        
+        if ( c->name != NULL)
+            g_io_channel_write_chars(file_data,c->name,strlen(c->name),NULL,&file_error);
+        
+        if (file_error)
+                goto error;
+        
+        if ( i < nb_columns - 1){
+            
+            g_io_channel_write_chars(file_data, ",", 1, NULL, &file_error);
+        
+            if (file_error)
+                goto error;
+            
+        }
+    }
+    
+    g_io_channel_write_chars(file_data, "\n", 1, NULL, &file_error);
+        
+        if (file_error)
+            goto error;
+        
 
     gchar buffer[G_ASCII_DTOSTR_BUF_SIZE + 1];
 
     for (int i = 0; i < max_length; i++) {
+        
         for (int j = 0; j < nb_columns; j++) {
-            GArray* a = g_ptr_array_index(csv_file->columns, j);
+           
+            _Column* c = g_ptr_array_index(csv_file->columns,j);
+            GArray* a = c->array;
+            
             if (i < a->len) {
+                
                 g_ascii_dtostr(buffer, G_ASCII_DTOSTR_BUF_SIZE + 1, g_array_index(a, gdouble, i));
+                
                 g_io_channel_write_chars(file_data, buffer, -1, NULL, &file_error);
+                
                 if (file_error)
                     goto error;
             }
-            g_io_channel_write_chars(file_data, ",", 1, NULL, &file_error);
-            if (file_error)
-                goto error;
+            
+            if ( j < nb_columns - 1){
+            
+                g_io_channel_write_chars(file_data, ",", 1, NULL, &file_error);
+            
+                if (file_error)
+                    goto error;
+            }
         }
+        
         g_io_channel_write_chars(file_data, "\n", 1, NULL, &file_error);
+        
         if (file_error)
             goto error;
     }

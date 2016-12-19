@@ -26,7 +26,7 @@ void gx_csv_file_ref(GCsvFile* cvs_file);
 
 void gx_csv_file_unref(GCsvFile* cvs_file);
 
-void gx_csv_file_add_column(GCsvFile* csv_file,double* indices,double* values,gsize size);
+void gx_csv_file_add_column(GCsvFile* csv_file,gdouble* values,gsize size,gchar* name);
 
 void gx_csv_file_write_to_disk(GCsvFile* csv_file,gchar* path,gchar* gnuplot_script_path,GError** error);        
         

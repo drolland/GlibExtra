@@ -1,0 +1,40 @@
+#!/usr/bin/python
+
+import numpy as numpy
+import matplotlib.pyplot as plt
+import sys
+
+if len(sys.argv) < 2:
+	print("Please provide the path to the csv_file")
+	exit(0)
+
+
+
+data = numpy.genfromtxt(sys.argv[1], delimiter=',',skip_header = 1)
+data = data.transpose()
+nb_columns,length = data.shape
+
+# Read column titles
+file = open(sys.argv[1], 'r')
+column_titles = file.readline();
+column_titles = column_titles.rsplit(',')
+
+plt.title("Sorting algorithms")
+plt.xlabel('N')
+plt.ylabel('Time')
+
+lines = []
+for x in range(0,nb_columns-1,2):
+	l, = plt.plot(data[x],data[x+1], label=column_titles[x+1])
+	lines.append(l);
+
+plt.legend(handles=lines)
+
+plt.show()
+
+
+
+
+
+
+
