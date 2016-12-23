@@ -7,7 +7,7 @@
 
 G_BEGIN_DECLS
         
-void gx_merge_sort(gint* t, size_t n);
+void gx_merge_sort(void* t, size_t elem_size, int nb_elements, GCompareFunc cmp);
         
         
         

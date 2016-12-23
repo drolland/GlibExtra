@@ -11,6 +11,8 @@
 
 #define N 1000000
 
+
+
 int main(int argc,char** argv){
     
     GTimer* timer = g_timer_new();
@@ -19,7 +21,7 @@ int main(int argc,char** argv){
     
     g_timer_start(timer);
     
-    gx_merge_sort(array,N);
+    gx_merge_sort(array,sizeof(gint),N,cmp_func_int);
     
     g_timer_stop(timer);
     

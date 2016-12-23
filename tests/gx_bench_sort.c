@@ -69,7 +69,7 @@ void plot_complexity(){
         
             g_timer_continue(timer3);
         
-            gx_merge_sort(t,n);
+            gx_merge_sort(t,sizeof(gint),n,cmp_func_int);
             
             g_timer_stop(timer3);
 
@@ -97,9 +97,7 @@ void plot_complexity(){
          i++;
         
     }
-    
-    
-    
+
     GCsvFile* file = gx_csv_file_new();
     
     gx_csv_file_add_column(file,indices,MAX_N/STEP_N - 1,"_");

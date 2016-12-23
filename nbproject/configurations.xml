@@ -206,6 +206,14 @@
       </compileType>
       <item path="d_macros.h" ex="false" tool="3" flavor2="0">
       </item>
+      <folder path="TestFiles">
+        <cTool>
+          <commandLine>`pkg-config --cflags glib-2.0`</commandLine>
+        </cTool>
+        <linkerTool>
+          <commandLine>`pkg-config --libs glib-2.0`</commandLine>
+        </linkerTool>
+      </folder>
       <folder path="TestFiles/f1">
         <cTool>
           <incDir>
@@ -283,8 +291,6 @@
       <item path="gx_qsort.c" ex="false" tool="0" flavor2="10">
       </item>
       <item path="gx_qsort.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="main.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="tests/Makefile" ex="false" tool="3" flavor2="0">
       </item>

@@ -54,6 +54,9 @@ gint gx_is_int_array_sorted(gint t[], gsize size){
     return 1;    
 }
 
+gint cmp_func_int_merge(gconstpointer a,gconstpointer b){
+    return *(gint*)a - *(gint*)b;
+}
 
 gint cmp_func_int(gconstpointer a,gconstpointer b){
     return *((gint*)a) - *((gint*)b);

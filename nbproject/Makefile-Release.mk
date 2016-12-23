@@ -38,8 +38,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/gx_csv_file.o \
 	${OBJECTDIR}/gx_merge_sort.o \
 	${OBJECTDIR}/gx_printf.o \
-	${OBJECTDIR}/gx_qsort.o \
-	${OBJECTDIR}/main.o
+	${OBJECTDIR}/gx_qsort.o
 
 # Test Directory
 TESTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}/tests
@@ -104,11 +103,6 @@ ${OBJECTDIR}/gx_qsort.o: gx_qsort.c
 	${RM} "$@.d"
 	$(COMPILE.c) -O3 -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/gx_qsort.o gx_qsort.c
 
-${OBJECTDIR}/main.o: main.c
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.c) -O3 -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.c
-
 # Subprojects
 .build-subprojects:
 
@@ -118,43 +112,43 @@ ${OBJECTDIR}/main.o: main.c
 
 ${TESTDIR}/TestFiles/f4: ${TESTDIR}/tests/gx_bench_sort.o ${OBJECTFILES:%.o=%_nomain.o}
 	${MKDIR} -p ${TESTDIR}/TestFiles
-	${LINK.c} -o ${TESTDIR}/TestFiles/f4 $^ ${LDLIBSOPTIONS}   
+	${LINK.c} -o ${TESTDIR}/TestFiles/f4 $^ ${LDLIBSOPTIONS} `pkg-config --libs glib-2.0`  
 
 ${TESTDIR}/TestFiles/f1: ${TESTDIR}/tests/gx_test_csv_file.o ${OBJECTFILES:%.o=%_nomain.o}
 	${MKDIR} -p ${TESTDIR}/TestFiles
-	${LINK.c} -o ${TESTDIR}/TestFiles/f1 $^ ${LDLIBSOPTIONS}   
+	${LINK.c} -o ${TESTDIR}/TestFiles/f1 $^ ${LDLIBSOPTIONS} `pkg-config --libs glib-2.0`  
 
 ${TESTDIR}/TestFiles/f2: ${TESTDIR}/tests/gx_test_msort.o ${OBJECTFILES:%.o=%_nomain.o}
 	${MKDIR} -p ${TESTDIR}/TestFiles
-	${LINK.c} -o ${TESTDIR}/TestFiles/f2 $^ ${LDLIBSOPTIONS}   
+	${LINK.c} -o ${TESTDIR}/TestFiles/f2 $^ ${LDLIBSOPTIONS} `pkg-config --libs glib-2.0`  
 
 ${TESTDIR}/TestFiles/f3: ${TESTDIR}/tests/gx_test_qsort.o ${OBJECTFILES:%.o=%_nomain.o}
 	${MKDIR} -p ${TESTDIR}/TestFiles
-	${LINK.c} -o ${TESTDIR}/TestFiles/f3 $^ ${LDLIBSOPTIONS}   
+	${LINK.c} -o ${TESTDIR}/TestFiles/f3 $^ ${LDLIBSOPTIONS} `pkg-config --libs glib-2.0`  
 
 
 ${TESTDIR}/tests/gx_bench_sort.o: tests/gx_bench_sort.c 
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} "$@.d"
-	$(COMPILE.c) -O3 -I. -std=c11 -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/gx_bench_sort.o tests/gx_bench_sort.c
+	$(COMPILE.c) -O3 -I. -std=c11 `pkg-config --cflags glib-2.0` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/gx_bench_sort.o tests/gx_bench_sort.c
 
 
 ${TESTDIR}/tests/gx_test_csv_file.o: tests/gx_test_csv_file.c 
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} "$@.d"
-	$(COMPILE.c) -O3 -I. -std=c11 -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/gx_test_csv_file.o tests/gx_test_csv_file.c
+	$(COMPILE.c) -O3 -I. -std=c11 `pkg-config --cflags glib-2.0` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/gx_test_csv_file.o tests/gx_test_csv_file.c
 
 
 ${TESTDIR}/tests/gx_test_msort.o: tests/gx_test_msort.c 
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} "$@.d"
-	$(COMPILE.c) -O3 -I. -std=c11 -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/gx_test_msort.o tests/gx_test_msort.c
+	$(COMPILE.c) -O3 -I. -std=c11 `pkg-config --cflags glib-2.0` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/gx_test_msort.o tests/gx_test_msort.c
 
 
 ${TESTDIR}/tests/gx_test_qsort.o: tests/gx_test_qsort.c 
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} "$@.d"
-	$(COMPILE.c) -O3 -I. -std=c11 -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/gx_test_qsort.o tests/gx_test_qsort.c
+	$(COMPILE.c) -O3 -I. -std=c11 `pkg-config --cflags glib-2.0` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/gx_test_qsort.o tests/gx_test_qsort.c
 
 
 ${OBJECTDIR}/gx_csv_file_nomain.o: ${OBJECTDIR}/gx_csv_file.o gx_csv_file.c 
@@ -207,19 +201,6 @@ ${OBJECTDIR}/gx_qsort_nomain.o: ${OBJECTDIR}/gx_qsort.o gx_qsort.c
 	    $(COMPILE.c) -O3 -std=c11 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/gx_qsort_nomain.o gx_qsort.c;\
 	else  \
 	    ${CP} ${OBJECTDIR}/gx_qsort.o ${OBJECTDIR}/gx_qsort_nomain.o;\
-	fi
-
-${OBJECTDIR}/main_nomain.o: ${OBJECTDIR}/main.o main.c 
-	${MKDIR} -p ${OBJECTDIR}
-	@NMOUTPUT=`${NM} ${OBJECTDIR}/main.o`; \
-	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
-	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
-	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
-	then  \
-	    ${RM} "$@.d";\
-	    $(COMPILE.c) -O3 -std=c11 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main_nomain.o main.c;\
-	else  \
-	    ${CP} ${OBJECTDIR}/main.o ${OBJECTDIR}/main_nomain.o;\
 	fi
 
 # Run Test Targets
