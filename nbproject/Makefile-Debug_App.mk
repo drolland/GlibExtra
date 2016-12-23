@@ -38,19 +38,22 @@ OBJECTFILES= \
 	${OBJECTDIR}/gx_csv_file.o \
 	${OBJECTDIR}/gx_merge_sort.o \
 	${OBJECTDIR}/gx_printf.o \
-	${OBJECTDIR}/gx_qsort.o
+	${OBJECTDIR}/gx_qsort.o \
+	${OBJECTDIR}/main.o
 
 # Test Directory
 TESTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}/tests
 
 # Test Files
 TESTFILES= \
+	${TESTDIR}/TestFiles/f4 \
 	${TESTDIR}/TestFiles/f1 \
 	${TESTDIR}/TestFiles/f2 \
 	${TESTDIR}/TestFiles/f3
 
 # Test Object Files
 TESTOBJECTFILES= \
+	${TESTDIR}/tests/gx_bench_sort.o \
 	${TESTDIR}/tests/gx_test_csv_file.o \
 	${TESTDIR}/tests/gx_test_msort.o \
 	${TESTDIR}/tests/gx_test_qsort.o
@@ -99,12 +102,21 @@ ${OBJECTDIR}/gx_qsort.o: gx_qsort.c
 	${RM} "$@.d"
 	$(COMPILE.c) -g -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/gx_qsort.o gx_qsort.c
 
+${OBJECTDIR}/main.o: main.c
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -g -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.c
+
 # Subprojects
 .build-subprojects:
 
 # Build Test Targets
 .build-tests-conf: .build-tests-subprojects .build-conf ${TESTFILES}
 .build-tests-subprojects:
+
+${TESTDIR}/TestFiles/f4: ${TESTDIR}/tests/gx_bench_sort.o ${OBJECTFILES:%.o=%_nomain.o}
+	${MKDIR} -p ${TESTDIR}/TestFiles
+	${LINK.c} -o ${TESTDIR}/TestFiles/f4 $^ ${LDLIBSOPTIONS}   
 
 ${TESTDIR}/TestFiles/f1: ${TESTDIR}/tests/gx_test_csv_file.o ${OBJECTFILES:%.o=%_nomain.o}
 	${MKDIR} -p ${TESTDIR}/TestFiles
@@ -117,6 +129,12 @@ ${TESTDIR}/TestFiles/f2: ${TESTDIR}/tests/gx_test_msort.o ${OBJECTFILES:%.o=%_no
 ${TESTDIR}/TestFiles/f3: ${OBJECTFILES:%.o=%_nomain.o}
 	${MKDIR} -p ${TESTDIR}/TestFiles
 	${LINK.c} -o ${TESTDIR}/TestFiles/f3 $^ ${LDLIBSOPTIONS}   
+
+
+${TESTDIR}/tests/gx_bench_sort.o: tests/gx_bench_sort.c 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} "$@.d"
+	$(COMPILE.c) -g -I. -std=c11 -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/gx_bench_sort.o tests/gx_bench_sort.c
 
 
 ${TESTDIR}/tests/gx_test_csv_file.o: tests/gx_test_csv_file.c 
@@ -183,10 +201,24 @@ ${OBJECTDIR}/gx_qsort_nomain.o: ${OBJECTDIR}/gx_qsort.o gx_qsort.c
 	    ${CP} ${OBJECTDIR}/gx_qsort.o ${OBJECTDIR}/gx_qsort_nomain.o;\
 	fi
 
+${OBJECTDIR}/main_nomain.o: ${OBJECTDIR}/main.o main.c 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/main.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.c) -g -std=c11 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main_nomain.o main.c;\
+	else  \
+	    ${CP} ${OBJECTDIR}/main.o ${OBJECTDIR}/main_nomain.o;\
+	fi
+
 # Run Test Targets
 .test-conf:
 	@if [ "${TEST}" = "" ]; \
 	then  \
+	    ${TESTDIR}/TestFiles/f4 || true; \
 	    ${TESTDIR}/TestFiles/f1 || true; \
 	    ${TESTDIR}/TestFiles/f2 || true; \
 	    ${TESTDIR}/TestFiles/f3 || true; \

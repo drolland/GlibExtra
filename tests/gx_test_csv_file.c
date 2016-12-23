@@ -116,10 +116,5 @@ int main(int argc, char** argv) {
 
     g_test_add_func("/csv_file/correct_behaviour", test_correct_behaviour);
 
-
-
-
-
-
     return g_test_run();
 }

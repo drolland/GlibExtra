@@ -9,12 +9,17 @@
         <group>
             <file>file:/home/drolland/NetBeansProject/GLibExtra/gx_macros.h</file>
             <file>file:/home/drolland/NetBeansProject/GLibExtra/gx_qsort.c</file>
-            <file>file:/home/drolland/NetBeansProject/GLibExtra/Makefile</file>
             <file>file:/home/drolland/NetBeansProject/GLibExtra/gx_merge_sort.c</file>
-            <file>file:/home/drolland/NetBeansProject/GLibExtra/tests/gx_test_qsort.c</file>
+            <file>file:/home/drolland/NetBeansProject/GLibExtra/gx_qsort.h</file>
+            <file>file:/home/drolland/NetBeansProject/GLibExtra/exercice.c</file>
+            <file>file:/home/drolland/NetBeansProject/GLibExtra/gx_csv_file.h</file>
             <file>file:/home/drolland/NetBeansProject/GLibExtra/gx_merge_sort.h</file>
-            <file>file:/home/drolland/NetBeansProject/GLibExtra/gx_test_msort.c</file>
             <file>file:/home/drolland/NetBeansProject/GLibExtra/tests/Makefile</file>
+            <file>file:/home/drolland/NetBeansProject/GLibExtra/Makefile</file>
+            <file>file:/home/drolland/NetBeansProject/GLibExtra/tests/gx_test_qsort.c</file>
+            <file>file:/home/drolland/NetBeansProject/GLibExtra/gx_printf.c</file>
+            <file>file:/home/drolland/NetBeansProject/GLibExtra/tests/gx_test_csv_file.c</file>
+            <file>file:/home/drolland/NetBeansProject/GLibExtra/gx_printf.h</file>
         </group>
     </open-files>
 </project-private>
