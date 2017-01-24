@@ -38,7 +38,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/gx_csv_file.o \
 	${OBJECTDIR}/gx_merge_sort.o \
 	${OBJECTDIR}/gx_printf.o \
-	${OBJECTDIR}/gx_qsort.o
+	${OBJECTDIR}/gx_qsort.o \
+	${OBJECTDIR}/gx_tim_sort.o
 
 # Test Directory
 TESTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}/tests
@@ -102,6 +103,11 @@ ${OBJECTDIR}/gx_qsort.o: gx_qsort.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -O3 -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/gx_qsort.o gx_qsort.c
+
+${OBJECTDIR}/gx_tim_sort.o: gx_tim_sort.c
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -O3 -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/gx_tim_sort.o gx_tim_sort.c
 
 # Subprojects
 .build-subprojects:
@@ -201,6 +207,19 @@ ${OBJECTDIR}/gx_qsort_nomain.o: ${OBJECTDIR}/gx_qsort.o gx_qsort.c
 	    $(COMPILE.c) -O3 -std=c11 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/gx_qsort_nomain.o gx_qsort.c;\
 	else  \
 	    ${CP} ${OBJECTDIR}/gx_qsort.o ${OBJECTDIR}/gx_qsort_nomain.o;\
+	fi
+
+${OBJECTDIR}/gx_tim_sort_nomain.o: ${OBJECTDIR}/gx_tim_sort.o gx_tim_sort.c 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/gx_tim_sort.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.c) -O3 -std=c11 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/gx_tim_sort_nomain.o gx_tim_sort.c;\
+	else  \
+	    ${CP} ${OBJECTDIR}/gx_tim_sort.o ${OBJECTDIR}/gx_tim_sort_nomain.o;\
 	fi
 
 # Run Test Targets

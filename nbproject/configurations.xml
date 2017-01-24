@@ -23,6 +23,8 @@
       <itemPath>gx_printf.h</itemPath>
       <itemPath>gx_qsort.c</itemPath>
       <itemPath>gx_qsort.h</itemPath>
+      <itemPath>gx_tim_sort.c</itemPath>
+      <itemPath>gx_tim_sort.h</itemPath>
       <itemPath>main.c</itemPath>
     </logicalFolder>
     <logicalFolder name="f1" displayName="tests" projectFiles="true">
@@ -171,6 +173,10 @@
       </item>
       <item path="gx_qsort.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="gx_tim_sort.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="gx_tim_sort.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="main.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="tests/Makefile" ex="false" tool="3" flavor2="0">
@@ -292,6 +298,10 @@
       </item>
       <item path="gx_qsort.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="gx_tim_sort.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="gx_tim_sort.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="tests/Makefile" ex="false" tool="3" flavor2="0">
       </item>
       <item path="tests/gx_bench_sort.c" ex="false" tool="0" flavor2="0">
@@ -399,6 +409,10 @@
       <item path="gx_qsort.c" ex="false" tool="0" flavor2="10">
       </item>
       <item path="gx_qsort.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="gx_tim_sort.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="gx_tim_sort.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.c" ex="false" tool="0" flavor2="0">
       </item>

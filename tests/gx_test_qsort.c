@@ -58,7 +58,7 @@ int main(int argc,char** argv){
     
     g_test_init(&argc,&argv,NULL);
     
-    gx_printf_c(BLUE,"Test gx_test_sort started\n");
+    gx_printf_c(BLUE,"Test gx_test_qsort started\n");
     
     g_test_add_func ("/qsort/random_input",test_random_input_int);
     g_test_add_func ("/qsort/random_input_generic",test_random_input_generic);

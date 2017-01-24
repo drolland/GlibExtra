@@ -39,6 +39,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/gx_merge_sort.o \
 	${OBJECTDIR}/gx_printf.o \
 	${OBJECTDIR}/gx_qsort.o \
+	${OBJECTDIR}/gx_tim_sort.o \
 	${OBJECTDIR}/main.o
 
 # Test Directory
@@ -101,6 +102,11 @@ ${OBJECTDIR}/gx_qsort.o: gx_qsort.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -g -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/gx_qsort.o gx_qsort.c
+
+${OBJECTDIR}/gx_tim_sort.o: gx_tim_sort.c
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -g -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/gx_tim_sort.o gx_tim_sort.c
 
 ${OBJECTDIR}/main.o: main.c
 	${MKDIR} -p ${OBJECTDIR}
@@ -199,6 +205,19 @@ ${OBJECTDIR}/gx_qsort_nomain.o: ${OBJECTDIR}/gx_qsort.o gx_qsort.c
 	    $(COMPILE.c) -g -std=c11 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/gx_qsort_nomain.o gx_qsort.c;\
 	else  \
 	    ${CP} ${OBJECTDIR}/gx_qsort.o ${OBJECTDIR}/gx_qsort_nomain.o;\
+	fi
+
+${OBJECTDIR}/gx_tim_sort_nomain.o: ${OBJECTDIR}/gx_tim_sort.o gx_tim_sort.c 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/gx_tim_sort.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.c) -g -std=c11 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/gx_tim_sort_nomain.o gx_tim_sort.c;\
+	else  \
+	    ${CP} ${OBJECTDIR}/gx_tim_sort.o ${OBJECTDIR}/gx_tim_sort_nomain.o;\
 	fi
 
 ${OBJECTDIR}/main_nomain.o: ${OBJECTDIR}/main.o main.c 
